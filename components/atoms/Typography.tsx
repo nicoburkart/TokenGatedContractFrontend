@@ -21,7 +21,13 @@ export const Title = ({ children, className }: Props) => {
 
 export const SubTitle = ({ children, className }: Props) => {
   return (
-    <h2 className={'text-zinc-800 text-lg font-medium mb-3' + ' ' + className}>
+    <h2
+      className={
+        'text-zinc-800 text-lg font-semibold mb-3 font-poppins' +
+        ' ' +
+        className
+      }
+    >
       {children}
     </h2>
   );
@@ -31,7 +37,7 @@ export const Paragraph = ({ children, className }: Props) => {
   return (
     <h2
       className={
-        'text-zinc-800 text-base font-semibold leading-relaxed' +
+        'text-zinc-800 text-base font-medium leading-relaxed font-poppins' +
         ' ' +
         className
       }

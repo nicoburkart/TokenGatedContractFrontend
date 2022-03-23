@@ -5,16 +5,16 @@ export const Footer = () => {
   return (
     <footer className="text-gray-600 body-font">
       <Container className="py-8 sm:flex-row">
-        <Link href={'/'}>
-          <a className="flex flex-row items-center justify-center">
-            <div className="rounded-full overflow-hidden">
-              <img src="assets/images/logo.png" className="w-12 h-12" />
-            </div>
-            <h1 className="hidden md:block title-font font-medium text-xl ml-4">
-              CreativeContracts
-            </h1>
-          </a>
-        </Link>
+        <div className="flex items-center px-2 md:pl-0">
+          <Link href="/">
+            <a className="flex flex-row items-center justify-center">
+              <div className="rounded-full w-10 h-10 bg-gradient-to-br from-red-400 to-purple-700"></div>
+              <h1 className="hidden md:block font-poppins font-black text-zinc-800 text-xl ml-4">
+                TokengatedContract.
+              </h1>
+            </a>
+          </Link>
+        </div>
 
         <p className="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
           © 2022 Creative Contracts —
