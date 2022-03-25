@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { useAccount, useSignMessage } from 'wagmi';
+import { DropDownMenu } from '../molecules/DropDownMenu';
 import { NavigationItems } from '../molecules/NavigationItems';
 import { Container } from '../templates/Container';
 import { WalletConnector } from './WalletConnector';
@@ -9,6 +10,23 @@ export const Navigation = () => {
   const [navOpen, setNavOpen] = useState(false);
   const [loadingUser, setLoadingUser] = useState(false);
   const [{ data: accountData }, disconnect] = useAccount();
+
+  const ProfileMenu = () => {
+    return (
+      <DropDownMenu
+        transparentBackground={true}
+        items={[
+          {
+            label: 'logout',
+            action: () => {
+              disconnect();
+            },
+          },
+        ]}
+        icon={<img src="icons/profile.svg" className="h-10 w-10"></img>}
+      ></DropDownMenu>
+    );
+  };
 
   return (
     <header>
@@ -29,17 +47,11 @@ export const Navigation = () => {
               <NavigationItems></NavigationItems>
             </div>
             <div className="block">
-              <div className="flex items-center md:ml-6">
-                {loadingUser ? (
-                  <img
-                    className="animate-spin"
-                    src="assets/icons/loading.svg"
-                    alt=""
-                  />
+              <div className="relative">
+                {!accountData ? (
+                  <WalletConnector></WalletConnector>
                 ) : (
-                  <div className="relative">
-                    <WalletConnector></WalletConnector>
-                  </div>
+                  <ProfileMenu></ProfileMenu>
                 )}
               </div>
             </div>

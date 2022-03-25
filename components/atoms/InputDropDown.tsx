@@ -4,17 +4,16 @@ import { SecondaryButton } from './Buttons';
 type Props = {
   label: string;
   items: Item[];
-  update: Dispatch<SetStateAction<number>>;
+  onUpdate: Dispatch<SetStateAction<number>>;
   className?: string;
 };
 
 type Item = {
   label: string;
-  update?: (index: number) => any;
   price: number;
 };
 
-export const InputElem = ({ className, label, items, update }: Props) => {
+export const InputDropDown = ({ className, label, items, onUpdate }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(items[0]);
 
@@ -22,7 +21,7 @@ export const InputElem = ({ className, label, items, update }: Props) => {
     const item = items[index];
     setSelectedItem(item);
     setIsOpen(false);
-    update(index);
+    onUpdate(index);
   };
 
   return (

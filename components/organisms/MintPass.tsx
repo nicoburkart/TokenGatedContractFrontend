@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PrimaryButton } from '../atoms/Buttons';
-import { InputElem } from '../atoms/InputElem';
+import { InputDropDown } from '../atoms/InputDropDown';
 import { Paragraph, SubTitle, Title } from '../atoms/Typography';
 import { Container } from '../templates/Container';
 
@@ -38,7 +38,7 @@ export const MintPass = () => {
   ];
 
   return (
-    <section className="bg-cover bg-bottom bg-no-repeat">
+    <section id="mintnft" className="bg-cover bg-bottom bg-no-repeat">
       <Container className="py-24">
         <Title>Create Pass</Title>
         <div className="bg-zinc-800 rounded-full w-14 h-1 mb-10 lg:mb-20"></div>
@@ -49,18 +49,18 @@ export const MintPass = () => {
               alt="hero"
               src="images/blur-hero-2.svg"
             />
-            <SubTitle className="md:text-left">Configure Pass</SubTitle>
-            <InputElem
+            <SubTitle className="md:text-left ">Configure Pass</SubTitle>
+            <InputDropDown
               label="Access Tier"
               items={accessTiers}
-              update={setSelectedAccessTierIndex}
-            ></InputElem>
+              onUpdate={setSelectedAccessTierIndex}
+            ></InputDropDown>
 
-            <InputElem
+            <InputDropDown
               label="Color"
               items={colors}
-              update={setSelectedColorIndex}
-            ></InputElem>
+              onUpdate={setSelectedColorIndex}
+            ></InputDropDown>
 
             <Paragraph>
               <span className="flex items-center justify-between">

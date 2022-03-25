@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { SecondaryButton } from '../atoms/Buttons';
 
 interface Props {
-  forceOpen?: boolean;
   label?: string;
-  withDivider?: boolean;
   icon?: JSX.Element;
+  transparentBackground?: boolean;
   items: DDMItem[];
 }
 
@@ -23,7 +22,9 @@ export const DropDownMenu = (props: Props) => {
     <div className="relative inline-block text-left">
       <SecondaryButton
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center w-full px-9"
+        className={`flex items-center justify-center w-full px-9 ${
+          props.transparentBackground ? 'bg-transparent' : ''
+        }`}
       >
         {props.label}
         {props.icon || (
@@ -40,12 +41,10 @@ export const DropDownMenu = (props: Props) => {
         )}
       </SecondaryButton>
 
-      {(props.forceOpen || isOpen) && (
-        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
+      {isOpen && (
+        <div className="w-full z-20 overflow-hidden origin-top-right absolute right-0 mt-2 rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div
-            className={`py-1 ${
-              props.withDivider ? 'divide-y divide-gray-100' : ''
-            }`}
+            className={'py-1 divide-y divide-gray-100'}
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="options-menu"
@@ -54,21 +53,11 @@ export const DropDownMenu = (props: Props) => {
               return (
                 <a
                   key={item.label}
-                  href={item.link || '#'}
                   onClick={item.action}
-                  className={`${
-                    item.icon ? 'flex items-center' : 'block'
-                  } block px-4 py-2 text-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-100 dark:hover:text-white dark:hover:bg-gray-600`}
+                  className={`text-zinc-800 text-left flex items-center justify-between hover:bg-zinc-100 px-8 py-8 md:py-4 cursor-pointer font-normal font-poppins'`}
                   role="menuitem"
                 >
-                  {item.icon}
-
-                  <span className="flex flex-col">
-                    <span>{item.label}</span>
-                    {item.desc && (
-                      <span className="text-gray-400 text-xs">{item.desc}</span>
-                    )}
-                  </span>
+                  {item.label}
                 </a>
               );
             })}

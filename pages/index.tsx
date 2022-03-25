@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { About } from '../components/organisms/About';
 import { Features } from '../components/organisms/Features';
 import { Hero } from '../components/organisms/Hero';
 import { MintPass } from '../components/organisms/MintPass';
@@ -10,6 +11,7 @@ const Home: NextPage = () => {
       <Hero></Hero>
       <Features></Features>
       <MintPass></MintPass>
+      <About></About>
     </Layout>
   );
 };
