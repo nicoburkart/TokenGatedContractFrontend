@@ -1,16 +1,13 @@
+import { ethers } from 'ethers';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { ITestValue } from '../../constants';
 import { SecondaryButton } from './Buttons';
 
 type Props = {
   label: string;
-  items: Item[];
+  items: ITestValue[];
   onUpdate: Dispatch<SetStateAction<number>>;
   className?: string;
-};
-
-type Item = {
-  label: string;
-  price: number;
 };
 
 export const InputDropDown = ({ className, label, items, onUpdate }: Props) => {
@@ -25,7 +22,7 @@ export const InputDropDown = ({ className, label, items, onUpdate }: Props) => {
   };
 
   return (
-    <div className=" relative w-full">
+    <div className="relative w-full">
       <div className="flex flex-col">
         <label className="text-sm font-light text-zinc-600 mb-3">{label}</label>
         <SecondaryButton
@@ -34,7 +31,7 @@ export const InputDropDown = ({ className, label, items, onUpdate }: Props) => {
         >
           {selectedItem.label}
           <span className="flex items-center text-sm font-light text-zinc-400">
-            {selectedItem.price + ' ETH'}
+            {ethers.utils.formatEther(selectedItem.price) + ' ETH'}
             <svg
               className="ml-1 hidden sm:block"
               width="20"
@@ -49,7 +46,7 @@ export const InputDropDown = ({ className, label, items, onUpdate }: Props) => {
         </SecondaryButton>
       </div>
       {isOpen && (
-        <div className="w-full z-10 overflow-hidden origin-top-right absolute right-0 mt-2 rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+        <div className="w-full z-20 overflow-hidden origin-top-right absolute right-0 mt-2 rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div
             className="divide-y divide-gray-100"
             role="menu"
@@ -66,7 +63,7 @@ export const InputDropDown = ({ className, label, items, onUpdate }: Props) => {
                 >
                   {item.label}
                   <span className="text-sm font-light text-zinc-400">
-                    {item.price} ETH
+                    {ethers.utils.formatEther(item.price)} ETH
                   </span>
                 </a>
               );
