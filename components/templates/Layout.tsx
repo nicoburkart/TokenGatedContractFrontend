@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import Head from 'next/head';
 import { Navigation } from '../organisms/Navigation';
 import { Footer } from '../organisms/Footer';
+import { ToastContainer } from 'react-toastify';
 
 type Props = {
   children?: ReactNode;
@@ -20,6 +21,17 @@ const Layout = ({ children, title = 'Community Pass' }: Props) => (
     <Navigation></Navigation>
 
     {children}
+    <ToastContainer
+      position="bottom-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
 
     <Footer></Footer>
   </div>

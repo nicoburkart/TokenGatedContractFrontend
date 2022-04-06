@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { useState } from 'react';
-import { useContract, useProvider, useSigner } from 'wagmi';
+import { toast } from 'react-toastify';
+import { useSigner } from 'wagmi';
 import { COLORS, TIERS } from '../../constants';
 import { abiCommunityPass } from '../../contractABI';
 import { renderPreview } from '../../services/renderPreview';
@@ -13,92 +14,46 @@ export const MintPass = () => {
   const CONTRACT_ADDRESS = '0x17B2d73F8ca96DBCe24EFF415fa64a899cF7f2b3';
   const [selectedAccessTierIndex, setSelectedAccessTierIndex] = useState(0);
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-  const [{ data, error, loading }, getSigner] = useSigner();
+  const [{ data: signer, error, loading }, getSigner] = useSigner();
+
+  const triggerMint = async () => {
+    toast.promise(mint, {
+      pending: 'Minting... 🧱⛏',
+      success: 'Mint Successfull! 🎨',
+      error: 'Mint Unsuccessfull... 🤯',
+    });
+  };
 
   const mint = async () => {
     if (loading) {
       return;
     }
-    const connectedContract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      abiCommunityPass,
-      data
-    );
+    try {
+      const connectedContract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        abiCommunityPass,
+        signer
+      );
 
-    let tx = await connectedContract.mintNFT(
-      TIERS[selectedAccessTierIndex].label,
-      COLORS[selectedColorIndex].label,
-      {
-        from: '0xAD234910d1af58Da98dcCE08390D2AD5eb8df71c',
-        value: TIERS[selectedAccessTierIndex].price.add(
-          COLORS[selectedColorIndex].price
-        ),
-      }
-    );
-    console.log('Mining...please wait.');
-    await tx.wait();
+      let tx = await connectedContract.mintNFT(
+        TIERS[selectedAccessTierIndex].label,
+        COLORS[selectedColorIndex].label,
+        {
+          from: await signer?.getAddress(),
+          value: TIERS[selectedAccessTierIndex].price.add(
+            COLORS[selectedColorIndex].price
+          ),
+        }
+      );
+      console.log('Mining...please wait.');
+      await tx.wait();
 
-    console.log(
-      `Mined, see transaction: https://rinkeby.etherscan.io/tx/${tx.hash}`
-    );
-  };
-
-  const setRenderer = async () => {
-    if (loading) {
-      return;
+      console.log(
+        `Mined, see transaction: https://rinkeby.etherscan.io/tx/${tx.hash}`
+      );
+    } catch (err) {
+      throw err;
     }
-    const connectedContract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      abiCommunityPass,
-      data
-    );
-
-    let tx = await connectedContract.setRenderer(
-      '0x9b068A4E655A441171De4eb496b1e5F6E378b4bC'
-    );
-    console.log('Mining...please wait.');
-    await tx.wait();
-
-    console.log(
-      `Mined, see transaction: https://rinkeby.etherscan.io/tx/${tx.hash}`
-    );
-  };
-
-  const withdrawAllFunds = async () => {
-    if (loading) {
-      return;
-    }
-    const connectedContract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      abiCommunityPass,
-      data
-    );
-
-    let tx = await connectedContract.withdrawAll();
-    console.log('Mining...please wait.');
-
-    await tx.wait();
-
-    console.log(
-      `Mined, see transaction: https://rinkeby.etherscan.io/tx/${tx.hash}`
-    );
-  };
-
-  const getTokenURI = async () => {
-    if (loading) {
-      return;
-    }
-    const connectedContract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      abiCommunityPass,
-      data
-    );
-
-    let tx = await connectedContract.tokenURI(1);
-    console.log('Mining...please wait.');
-    //await tx.wait();
-
-    console.log(`${tx}`);
   };
 
   return (
@@ -140,7 +95,7 @@ export const MintPass = () => {
               </span>
             </Paragraph>
 
-            <PrimaryButton onClick={mint}>Mint</PrimaryButton>
+            <PrimaryButton onClick={triggerMint}>Mint</PrimaryButton>
           </div>
           <div className="hidden lg:flex justify-center lg:w-1/2">
             <img
