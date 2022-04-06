@@ -7,7 +7,7 @@ import Layout from '../components/templates/Layout';
 
 const Home: NextPage = () => {
   return (
-    <Layout title="Home">
+    <Layout>
       <Hero></Hero>
       <Features></Features>
       <MintPass></MintPass>

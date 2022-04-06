@@ -43,6 +43,27 @@ export const MintPass = () => {
     );
   };
 
+  const setRenderer = async () => {
+    if (loading) {
+      return;
+    }
+    const connectedContract = new ethers.Contract(
+      CONTRACT_ADDRESS,
+      abiCommunityPass,
+      data
+    );
+
+    let tx = await connectedContract.setRenderer(
+      '0x9b068A4E655A441171De4eb496b1e5F6E378b4bC'
+    );
+    console.log('Mining...please wait.');
+    await tx.wait();
+
+    console.log(
+      `Mined, see transaction: https://rinkeby.etherscan.io/tx/${tx.hash}`
+    );
+  };
+
   const withdrawAllFunds = async () => {
     if (loading) {
       return;
@@ -79,15 +100,13 @@ export const MintPass = () => {
 
     console.log(`${tx}`);
   };
-  const object = { a: 5, b: 6, c: 7 };
-  const picked = (({ a, c }) => ({ a, c }))(object);
 
   return (
     <section id="mintnft" className="bg-cover bg-bottom bg-no-repeat">
       <Container className="py-24">
         <Title>Create Pass</Title>
         <div className="bg-zinc-800 rounded-full w-14 h-1 mb-10"></div>
-        <div className="flex w-full items-end justify-center md:justify-between lg:space-x-16">
+        <div className="flex w-full justify-center md:justify-between lg:space-x-16">
           <div className="relative flex flex-col w-full lg:w-1/2 space-y-4">
             <img
               className="hidden md:block absolute blur-[70px] opacity-30 -top-1/2 left-0 object-cover object-center z-0"
@@ -123,9 +142,9 @@ export const MintPass = () => {
 
             <PrimaryButton onClick={mint}>Mint</PrimaryButton>
           </div>
-          <div className="hidden lg:block lg:w-1/2">
+          <div className="hidden lg:flex justify-center lg:w-1/2">
             <img
-              className="object-cover object-center w-full"
+              className="max-h-[500px]"
               alt="hero"
               src={renderPreview(selectedAccessTierIndex, selectedColorIndex)}
             />

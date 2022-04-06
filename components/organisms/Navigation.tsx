@@ -57,16 +57,33 @@ export const Navigation = () => {
             </div>
             <div className="flex lg:hidden">
               <button
-                className="text-gray-800 dark:text-white hover:text-gray-300 inline-flex items-center justify-center px-2 md:px-4 py-2 rounded-md focus:outline-none"
+                className="relative z-50 inline-flex items-center justify-center rounded-md px-2 py-2 text-zinc-800 hover:text-gray-300 focus:outline-none dark:text-white md:px-4"
                 onClick={() => setNavOpen(!navOpen)}
               >
-                <img className="h-12 w-12" src="icons/menu.svg" alt="" />
+                <div className="flex w-8 flex-col items-end">
+                  <span
+                    className={`block h-1 w-full rounded-full bg-zinc-800 transition-all ${
+                      navOpen ? 'translate-y-1 -rotate-45' : 'mb-2'
+                    }`}
+                  ></span>
+                  <span
+                    className={`block h-1 rounded-full bg-zinc-800 transition-all ${
+                      navOpen ? 'w-full rotate-45' : 'w-2/3'
+                    }`}
+                  ></span>
+                </div>
               </button>
             </div>
           </div>
         </Container>
-        <div className={navOpen ? '' : 'hidden' + ' lg:hidden'}>
-          <NavigationItems></NavigationItems>
+        <div
+          className={`left- fixed top-0 z-40 flex h-full w-full flex-col items-center justify-center text-center transition-all ${
+            navOpen
+              ? 'bg-gradient-to-br from-gray-50 to-purple-50'
+              : 'hidden' + ' md:hidden'
+          }`}
+        >
+          <NavigationItems setNavOpen={setNavOpen}></NavigationItems>
         </div>
       </nav>
     </header>
