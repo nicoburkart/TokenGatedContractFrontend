@@ -11,7 +11,7 @@ export const About = () => {
         <div className="w-full flex flex-col md:flex-row space-y-10 md:space-x-8 md:space-y-0 items-center xl:space-x-32">
           <div className="md:w-1/4 md:max-w-fit rounded-full overflow-hidden border-[3px] h-full flex-shrink-0">
             <img
-              className="w-full h-[180px] md:h-auto md:max-w-[250px]"
+              className="w-full h-[180px] md:h-auto md:max-w-[250px] object-cover"
               src="images/profile-pic.jpeg"
               alt=""
             />

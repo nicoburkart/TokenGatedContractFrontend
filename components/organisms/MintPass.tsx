@@ -1,3 +1,4 @@
+import { rejects } from 'assert';
 import { ethers } from 'ethers';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -8,6 +9,7 @@ import { renderPreview } from '../../services/renderPreview';
 import { PrimaryButton } from '../atoms/Buttons';
 import { InputDropDown } from '../atoms/InputDropDown';
 import { Paragraph, SubTitle, Title } from '../atoms/Typography';
+import { LinkCollection } from '../molecules/LinkCollection';
 import { Container } from '../templates/Container';
 
 export const MintPass = () => {
@@ -19,16 +21,25 @@ export const MintPass = () => {
   const triggerMint = async () => {
     toast.promise(mint, {
       pending: 'Minting... 🧱⛏',
-      success: 'Mint Successfull! 🎨',
-      error: 'Mint Unsuccessfull... 🤯',
+      success: {
+        render({ data }) {
+          return `Minted! View NFT on OpenSea`;
+        },
+      },
+      error: 'Mint unsuccessfull... 🤯',
     });
   };
 
-  const mint = async () => {
+  const mint = async (): Promise<any> => {
     if (loading) {
       return;
     }
     try {
+      if ((await signer?.provider?.getNetwork())?.name !== 'rinkeby') {
+        toast.info('Connect to rinkeby network 🔌');
+        return Promise.reject();
+      }
+
       const connectedContract = new ethers.Contract(
         CONTRACT_ADDRESS,
         abiCommunityPass,
@@ -51,6 +62,7 @@ export const MintPass = () => {
       console.log(
         `Mined, see transaction: https://rinkeby.etherscan.io/tx/${tx.hash}`
       );
+      return tx.hash;
     } catch (err) {
       throw err;
     }
@@ -96,6 +108,7 @@ export const MintPass = () => {
             </Paragraph>
 
             <PrimaryButton onClick={triggerMint}>Mint</PrimaryButton>
+            <LinkCollection></LinkCollection>
           </div>
           <div className="hidden lg:flex justify-center lg:w-1/2">
             <img

@@ -23,6 +23,13 @@ export const NavigationItems = ({ setNavOpen }: Props) => {
         href="#mintnft"
         setNavOpen={setNavOpen}
       ></NavigationItem>
+      <NavigationItem
+        title="OpenSea"
+        active={true}
+        href="https://testnets.opensea.io/collection/communitypass"
+        setNavOpen={setNavOpen}
+        newTab={true}
+      ></NavigationItem>
     </div>
   );
 };
